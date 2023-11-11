@@ -19,5 +19,6 @@ public class CreatePatientCommand {
     private String surname;
 
     @Email
+    @NotBlank(message = "Email cannot be blank")
     private String email;
 }

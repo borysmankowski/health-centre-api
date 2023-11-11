@@ -1,6 +1,5 @@
 spring:
   application:
-    name: Library
 
   datasource:
     url: jdbc:h2:mem:testdb
