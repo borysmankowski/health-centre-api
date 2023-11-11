@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Set;
+
 @Builder
 @Data
 public class CreateDoctorCommand {
@@ -20,5 +22,5 @@ public class CreateDoctorCommand {
     private String surname;
 
     @NotNull(message = "Speciality required")
-    private Speciality speciality;
+    private Set<Speciality> speciality;
 }
