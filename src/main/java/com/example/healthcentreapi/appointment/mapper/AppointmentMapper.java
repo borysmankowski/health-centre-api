@@ -3,12 +3,26 @@ package com.example.healthcentreapi.appointment.mapper;
 import com.example.healthcentreapi.appointment.model.Appointment;
 import com.example.healthcentreapi.appointment.model.AppointmentDto;
 import com.example.healthcentreapi.appointment.model.CreateAppoimentCommand;
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface AppointmentMapper {
+@Component
 
-    Appointment fromDto(CreateAppoimentCommand createAppoimentCommand);
+public class AppointmentMapper {
 
-    AppointmentDto toDto(Appointment appointment);
+    public AppointmentDto toDto(Appointment appointment, long patientId, long doctorId) {
+        return AppointmentDto.builder()
+                .id(appointment.getId())
+                .patientId(patientId)
+                .doctorId(doctorId)
+                .dateTime(appointment.getDateTime())
+                .reason(appointment.getReason())
+                .build();
+    }
+
+    public Appointment fromDto(CreateAppoimentCommand createAppoimentCommand) {
+        return Appointment.builder()
+                .dateTime(createAppoimentCommand.getDateTime())
+                .reason(createAppoimentCommand.getReason())
+                .build();
+    }
 }

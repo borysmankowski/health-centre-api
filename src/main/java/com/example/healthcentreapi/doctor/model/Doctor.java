@@ -2,6 +2,7 @@ package com.example.healthcentreapi.doctor.model;
 
 import com.example.healthcentreapi.appointment.model.Appointment;
 import com.example.healthcentreapi.common.Speciality;
+import com.example.healthcentreapi.patient.model.Patient;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,4 +28,7 @@ public class Doctor {
 
     @OneToMany
     private Set<Appointment> appointmentList;
+
+    @OneToMany
+    private Set<Patient> patients;
 }

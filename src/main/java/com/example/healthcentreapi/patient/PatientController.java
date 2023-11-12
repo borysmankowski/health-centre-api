@@ -17,6 +17,6 @@ public class PatientController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PatientDto createPatient(@RequestBody @Valid CreatePatientCommand createPatientCommand) {
-        return patientService.savePatient(createPatientCommand);
+        return patientService.savePatient(createPatientCommand,createPatientCommand.getDoctorId());
     }
 }

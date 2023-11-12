@@ -1,11 +1,15 @@
 package com.example.healthcentreapi.patient.model;
 
+import com.example.healthcentreapi.common.Speciality;
+import com.example.healthcentreapi.doctor.model.Doctor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,4 +26,10 @@ public class Patient {
 
     @Email
     private String email;
+
+    @ManyToOne
+    private Doctor doctor;
+
+    @Enumerated(EnumType.STRING)
+    private Speciality speciality;
 }

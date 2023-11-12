@@ -20,4 +20,10 @@ public class GlobalExceptionHandler {
     public ExceptionDto handleAppointmentConflictException(AppointmentConflictException exception) {
         return new ExceptionDto(exception.getMessage());
     }
+
+    @ExceptionHandler(InvalidDoctorSpecialityException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDto handleInvalidSpecialityException(InvalidDoctorSpecialityException exception) {
+        return new ExceptionDto(exception.getMessage());
+    }
 }
