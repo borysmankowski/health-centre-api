@@ -1,6 +1,7 @@
 package com.example.healthcentreapi.appointment;
 
 import com.example.healthcentreapi.appointment.mapper.AppointmentMapper;
+import com.example.healthcentreapi.appointment.mapper.TestMapper;
 import com.example.healthcentreapi.appointment.model.Appointment;
 import com.example.healthcentreapi.appointment.model.AppointmentDto;
 import com.example.healthcentreapi.appointment.model.CreateAppoimentCommand;
@@ -22,7 +23,7 @@ public class AppointmentService {
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
     private final AppoimentRepository appoimentRepository;
-    private final AppointmentMapper appointmentMapper;
+    private final TestMapper appointmentMapper;
 
     public AppointmentDto save(CreateAppoimentCommand createAppoimentCommand, long doctorId, long patientId) {
 
@@ -45,7 +46,7 @@ public class AppointmentService {
         appointment.setPatient(patient);
 
         appoimentRepository.save(appointment);
-        return appointmentMapper.toDto(appointment);
+        return appointmentMapper.toDto(appointment,appointment.getPatient().getId(),appointment.getDoctor().getId());
 
     }
 }

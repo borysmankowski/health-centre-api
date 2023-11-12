@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 @Builder
 public class AppointmentDto {
 
-    private int id;
-    private int patientId;
-    private int doctorId;
+    private long id;
+    private long patientId;
+    private long doctorId;
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
     private LocalDateTime dateTime;
