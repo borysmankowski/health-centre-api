@@ -2,6 +2,7 @@ package com.example.healthcentreapi.appointment.model;
 
 import com.example.healthcentreapi.doctor.model.Doctor;
 import com.example.healthcentreapi.patient.model.Patient;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +27,8 @@ public class Appointment {
     @ManyToOne
     private Patient patient;
 
-    private LocalDateTime dateAndTimeOfAppointment;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
+    private LocalDateTime dateTime;
 
     private String reason;
 }

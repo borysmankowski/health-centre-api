@@ -15,7 +15,7 @@ public class AppointmentDto {
     private int doctorId;
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
-    private LocalDateTime dateAndTimeOfAppointment;
+    private LocalDateTime dateTime;
 
     private String reason;
 }
