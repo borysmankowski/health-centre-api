@@ -1,9 +1,10 @@
 package com.example.healthcentreapi.patient.model;
 
+import com.example.healthcentreapi.common.Speciality;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Builder;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
@@ -20,4 +21,9 @@ public class CreatePatientCommand {
     @Email
     @NotBlank(message = "Email cannot be blank")
     private String email;
+
+    @Positive
+    private long doctorId;
+
+    private Speciality speciality;
 }

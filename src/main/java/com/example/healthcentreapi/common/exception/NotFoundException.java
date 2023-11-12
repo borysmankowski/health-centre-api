@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 public class NotFoundException extends EntityNotFoundException {
 
-    private String type;
-    private long id;
+    public NotFoundException(String message) {
+        super(message);
+    }
 }

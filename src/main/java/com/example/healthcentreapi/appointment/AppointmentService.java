@@ -1,7 +1,6 @@
 package com.example.healthcentreapi.appointment;
 
 import com.example.healthcentreapi.appointment.mapper.AppointmentMapper;
-import com.example.healthcentreapi.appointment.mapper.TestMapper;
 import com.example.healthcentreapi.appointment.model.Appointment;
 import com.example.healthcentreapi.appointment.model.AppointmentDto;
 import com.example.healthcentreapi.appointment.model.CreateAppoimentCommand;
@@ -14,6 +13,7 @@ import com.example.healthcentreapi.patient.model.Patient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 
 @Service
@@ -23,17 +23,17 @@ public class AppointmentService {
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
     private final AppoimentRepository appoimentRepository;
-    private final TestMapper appointmentMapper;
+    private final AppointmentMapper appointmentMapper;
 
-    public AppointmentDto save(CreateAppoimentCommand createAppoimentCommand, long doctorId, long patientId) {
+    public AppointmentDto createAppointment(CreateAppoimentCommand createAppoimentCommand, long doctorId, long patientId) {
 
         LocalDateTime newTime = createAppoimentCommand.getDateTime();
 
         Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new NotFoundException(Doctor.class.getSimpleName(), doctorId));
+                .orElseThrow(() -> new NotFoundException(MessageFormat.format("Doctor id: {0} has not been found",doctorId)));
 
         Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new NotFoundException(Patient.class.getSimpleName(), patientId));
+                .orElseThrow(() -> new NotFoundException(MessageFormat.format("Patient id: {0} has not been found",patientId)));
 
         if (appoimentRepository.existsByDoctorAndDateTimeBetween(doctor, newTime.minusMinutes(59),
                 newTime.plusMinutes(59))) {
