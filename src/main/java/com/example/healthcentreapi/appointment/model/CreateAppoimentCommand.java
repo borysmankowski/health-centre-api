@@ -18,8 +18,8 @@ public class CreateAppoimentCommand {
     private long patientId;
 
     @NotNull(message = "date required")
-    @Future(message = "date has to be int the future")
-    private LocalDateTime dateAndTimeOfAppointment;
+    @Future(message = "date has to be in the future")
+    private LocalDateTime dateTime;
 
     @NotNull(message = "Reason of the appointment cannot be empty")
     private String reason;
