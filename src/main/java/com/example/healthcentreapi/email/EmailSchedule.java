@@ -2,6 +2,7 @@ package com.example.healthcentreapi.email;
 
 import com.example.healthcentreapi.appointment.AppointmentService;
 import com.example.healthcentreapi.appointment.model.Appointment;
+import com.example.healthcentreapi.appointment.model.AppointmentDto;
 import com.example.healthcentreapi.doctor.DoctorService;
 import com.example.healthcentreapi.patient.PatientService;
 import com.example.healthcentreapi.patient.model.PatientDto;
@@ -42,13 +43,13 @@ public class EmailSchedule {
             patientDtoPage = patientService.findAllPatients(pageable);
 
             for (PatientDto patientDto : patientDtoPage.getContent()) {
-                List<Appointment> upcomingAppointments = appointmentService
+                List<AppointmentDto> upcomingAppointments = appointmentService
                         .getUpcomingAppointmentsForPatient(patientDto.getId(), tomorrow);
 
-                for (Appointment appointment : upcomingAppointments) {
+                for (AppointmentDto appointment : upcomingAppointments) {
                     if (isAppointmentTomorrow(appointment, tomorrow)) {
                         emailService.sendAppointmentReminderEmail(patientDto, upcomingAppointments);
-                        break; // No need to check other appointments for this patient
+                        break;
                     }
                 }
             }
@@ -57,7 +58,7 @@ public class EmailSchedule {
         } while (patientDtoPage.hasNext());
     }
 
-    private boolean isAppointmentTomorrow(Appointment appointment, LocalDateTime tomorrow) {
+    private boolean isAppointmentTomorrow(AppointmentDto appointment, LocalDateTime tomorrow) {
         LocalDateTime appointmentDateTime = appointment.getDateTime();
         return appointmentDateTime.toLocalDate().isEqual(tomorrow.toLocalDate());
     }

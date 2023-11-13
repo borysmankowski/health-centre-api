@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 
 public class AppointmentMapper {
 
-    public AppointmentDto toDto(Appointment appointment, long patientId, long doctorId) {
+    public AppointmentDto toDto(Appointment appointment) {
         return AppointmentDto.builder()
                 .id(appointment.getId())
-                .patientId(patientId)
-                .doctorId(doctorId)
+                .patientId(appointment.getPatient().getId())
+                .doctorId(appointment.getDoctor().getId())
                 .dateTime(appointment.getDateTime())
                 .reason(appointment.getReason())
                 .build();
