@@ -26,4 +26,22 @@ public class GlobalExceptionHandler {
     public ExceptionDto handleInvalidSpecialityException(InvalidDoctorSpecialityException exception) {
         return new ExceptionDto(exception.getMessage());
     }
+
+    @ExceptionHandler(TermNotAvailableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDto handleUpdatingAppointmentAndTermNotAvailableException(TermNotAvailableException exception) {
+        return new ExceptionDto(exception.getMessage());
+    }
+
+    @ExceptionHandler(AppointmentAlreadyStartedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDto handleLessonAlreadyStartedException(AppointmentAlreadyStartedException exception) {
+        return new ExceptionDto(exception.getMessage());
+    }
+
+    @ExceptionHandler(AppointmentInPastException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDto handleLessonInPastException(AppointmentInPastException exception) {
+        return new ExceptionDto(exception.getMessage());
+    }
 }
