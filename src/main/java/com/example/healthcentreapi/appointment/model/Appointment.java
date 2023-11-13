@@ -13,6 +13,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(
+        name = "appointment",
+        indexes = {
+                @Index(name = "dateTimeIndex",columnList = "dateTime"),
+                @Index(name = "doctorIndex",columnList = "doctor"),
+                @Index(name = "patientIndex",columnList = "patient")
+        }
+)
 public class Appointment {
 
     @Id
@@ -20,9 +28,11 @@ public class Appointment {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "doctor")
     private Doctor doctor;
 
     @ManyToOne
+    @JoinColumn(name = "patient")
     private Patient patient;
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm")

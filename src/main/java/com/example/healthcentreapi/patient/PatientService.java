@@ -9,7 +9,10 @@ import com.example.healthcentreapi.patient.mapper.PatientMapper;
 import com.example.healthcentreapi.patient.model.CreatePatientCommand;
 import com.example.healthcentreapi.patient.model.Patient;
 import com.example.healthcentreapi.patient.model.PatientDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -23,6 +26,7 @@ public class PatientService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
 
+    @Transactional
     public PatientDto savePatient(CreatePatientCommand createPatientCommand, long doctorId) {
 
         Doctor doctor = doctorRepository.findById(doctorId)
@@ -38,5 +42,10 @@ public class PatientService {
         patientRepository.save(patient);
 
         return patientMapper.toDto(patient);
+    }
+
+    public Page<PatientDto> findAllPatients(Pageable pageable) {
+        Page<Patient> patients = patientRepository.findAll(pageable);
+        return patients.map(patientMapper::toDto);
     }
 }
