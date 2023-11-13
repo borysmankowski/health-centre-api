@@ -16,6 +16,10 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(
+        name = "patient",
+        uniqueConstraints ={@UniqueConstraint(columnNames = {"email"})}
+)
 public class Patient {
 
     @Id
