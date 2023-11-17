@@ -28,7 +28,7 @@ public class EmailSchedule {
 
     private AppointmentService appointmentService;
 
-    @Scheduled(cron = "1 * * * * *")
+    @Scheduled(cron = "1 * * * * *") // wywalic do properties tego crona
     public void sendScheduledEmailNotification() {
 
         LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);

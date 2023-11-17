@@ -38,14 +38,13 @@ public class PatientService {
         }
 
         Patient patient = patientMapper.fromDto(createPatientCommand);
-        patient.setDoctor(doctor);
+        patient.setDoctor(doctor); // bez sensu dodawanie doktora do wizyty, jedynym polaczeniem powinna byc wizyta lekarz -> pacjent
         patientRepository.save(patient);
 
         return patientMapper.toDto(patient);
     }
 
     public Page<PatientDto> findAllPatients(Pageable pageable) {
-        Page<Patient> patients = patientRepository.findAll(pageable);
-        return patients.map(patientMapper::toDto);
+        return patientRepository.findAll(pageable).map(patientMapper::toDto);
     }
 }

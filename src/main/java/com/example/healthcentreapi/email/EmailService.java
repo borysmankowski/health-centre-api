@@ -17,7 +17,7 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    public void sendAppointmentReminderEmail(PatientDto patientDto, List<AppointmentDto> appointments) {
+    public void sendAppointmentReminderEmail(PatientDto patientDto, List<AppointmentDto> appointments) { // oganrac ta cala metode i rozdzielic na 2
 
         String subject = "Appointment Reminder";
         String body = "Dear " + patientDto.getName() + ",\n\n"
