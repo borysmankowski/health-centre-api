@@ -57,7 +57,7 @@ public class AppointmentService {
     public List<AppointmentDto> getUpcomingAppointmentsForTomorrow(LocalDateTime tomorrow, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<AppointmentDto> appointmentDtoPage = appoinmentRepository
-                .findByDateTimeAfter(tomorrow, pageable);
+                .findByDateTimeIsBefore(tomorrow, pageable);
         return appointmentDtoPage.getContent();
     }
 
@@ -85,6 +85,7 @@ public class AppointmentService {
         return appointmentMapper.toDto(appointment);
     }
 
+    @Transactional
     public void deleteAppointmentById(long idToDelete) {
 
         Appointment appointment = appoinmentRepository.findById(idToDelete)
@@ -96,9 +97,9 @@ public class AppointmentService {
         appoinmentRepository.deleteById(idToDelete);
     }
 
-    public Page<AppointmentDto> findAllAppointments(Pageable pageable){
-        Page<Appointment> appointments = appoinmentRepository.findAll(pageable);
-        return appointments.map(appointmentMapper::toDto);
-    }
+//    public Page<AppointmentDto> findAllAppointments(Pageable pageable){
+//        Page<Appointment> appointments = appoinmentRepository.findAll(pageable);
+//        return appointments.map(appointmentMapper::toDto);
+//    }
 
 }

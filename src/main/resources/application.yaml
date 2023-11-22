@@ -30,3 +30,5 @@ spring:
     allow-bean-definition-overriding: false
 server:
   port: 8090
+scheduled:
+  cron-expression: "1 * * * * *"

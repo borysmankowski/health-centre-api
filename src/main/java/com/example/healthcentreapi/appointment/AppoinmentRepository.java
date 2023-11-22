@@ -16,10 +16,7 @@ public interface AppoinmentRepository extends JpaRepository<Appointment,Long> {
 
     boolean existsByDoctorAndDateTimeBetween(Doctor doctor, LocalDateTime from, LocalDateTime to);
 
-    @Lock(LockModeType.OPTIMISTIC)
-    List<AppointmentDto> findByDateTimeAfterAndPatient_Id(LocalDateTime dateTime, Long patient_id);
-
-    Page<AppointmentDto> findByDateTimeAfter(LocalDateTime dateTime, Pageable pageable);
+    Page<AppointmentDto> findByDateTimeIsBefore(LocalDateTime dateTime, Pageable pageable);
 
 
 }

@@ -24,13 +24,9 @@ public class PatientService {
         return patientMapper.toDto(patientRepository.save(patient));
     }
 
-    public Page<PatientDto> findAllPatients(Pageable pageable) {
-        Page<Patient> patients = patientRepository.findAll(pageable);
-        return patients.map(patientMapper::toDto);
-    }
-
+    @Transactional // to nie zadziala bo nie ma proxy, wiec czy powinno byc w appointmentService?
     public PatientDto getPatientById(long patientId) {
-        return patientRepository.findById(patientId)
+        return patientRepository.findPatientByIdForLock(patientId)
                 .map(patientMapper::toDto)
                 .orElseThrow(() -> new NotFoundException("Patient not found with id: " + patientId));
     }

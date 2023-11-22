@@ -31,6 +31,7 @@ public class EmailService {
         body += "\nPlease make sure to attend the appointment on time. "
                 + "If you have any questions, feel free to contact us.";
 
+
         String finalBody = body;
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);

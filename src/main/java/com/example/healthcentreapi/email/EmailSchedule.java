@@ -1,15 +1,12 @@
 package com.example.healthcentreapi.email;
 
 import com.example.healthcentreapi.appointment.AppointmentService;
-import com.example.healthcentreapi.appointment.model.Appointment;
 import com.example.healthcentreapi.appointment.model.AppointmentDto;
 import com.example.healthcentreapi.doctor.DoctorService;
 import com.example.healthcentreapi.patient.PatientService;
 import com.example.healthcentreapi.patient.model.PatientDto;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -24,11 +21,9 @@ public class EmailSchedule {
 
     private PatientService patientService;
 
-    private DoctorService doctorService;
-
     private AppointmentService appointmentService;
 
-    @Scheduled(cron = "1 * * * * *")
+    @Scheduled(cron = "${scheduled.cron-expression}")
     public void sendScheduledEmailNotification() {
 
         LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
@@ -48,11 +43,5 @@ public class EmailSchedule {
 
             page++;
         } while (!upcomingAppointments.isEmpty());
-    }
-
-
-    private boolean isAppointmentTomorrow(AppointmentDto appointment, LocalDateTime tomorrow) {
-        LocalDateTime appointmentDateTime = appointment.getDateTime();
-        return appointmentDateTime.toLocalDate().isEqual(tomorrow.toLocalDate());
     }
 }
