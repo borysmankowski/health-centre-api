@@ -21,7 +21,7 @@ public class AppoitmentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AppointmentDto createAppointment(@RequestBody @Valid CreateAppoimentCommand createAppoimentCommand) {
-        return appointmentService.createAppointment(createAppoimentCommand, createAppoimentCommand.getDoctorId(), createAppoimentCommand.getPatientId());
+        return appointmentService.createAppointment(createAppoimentCommand);
     }
 
     @PutMapping("/{appointmentId}")

@@ -11,13 +11,14 @@ import com.example.healthcentreapi.patient.PatientRepository;
 import com.example.healthcentreapi.patient.model.Patient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,15 +30,15 @@ public class AppointmentService {
     private final AppointmentMapper appointmentMapper;
 
     @Transactional
-    public AppointmentDto createAppointment(CreateAppoimentCommand createAppoimentCommand, long doctorId, long patientId) {
+    public AppointmentDto createAppointment(CreateAppoimentCommand createAppoimentCommand) {
 
         LocalDateTime newTime = createAppoimentCommand.getDateTime();
 
-        Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new NotFoundException(MessageFormat.format("Doctor id: {0} has not been found",doctorId)));
+        Doctor doctor = doctorRepository.findDoctorByIdForLock(createAppoimentCommand.getDoctorId())
+                .orElseThrow(() -> new NotFoundException(MessageFormat.format("Doctor id: {0} has not been found",createAppoimentCommand.getDoctorId())));
 
-        Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new NotFoundException(MessageFormat.format("Patient id: {0} has not been found",patientId)));
+        Patient patient = patientRepository.findPatientByIdForLock(createAppoimentCommand.getPatientId())
+                .orElseThrow(() -> new NotFoundException(MessageFormat.format("Patient id: {0} has not been found",createAppoimentCommand.getPatientId())));
 
         if (appoinmentRepository.existsByDoctorAndDateTimeBetween(doctor, newTime.minusMinutes(59),
                 newTime.plusMinutes(59))) {
@@ -49,19 +50,15 @@ public class AppointmentService {
         appointment.setDoctor(doctor);
         appointment.setPatient(patient);
 
-        appoinmentRepository.save(appointment);
-        return appointmentMapper.toDto(appointment);
+        return appointmentMapper.toDto(appoinmentRepository.save(appointment));
 
     }
 
-    public List<AppointmentDto> getUpcomingAppointmentsForPatient(Long patientId, LocalDateTime tomorrow) {
-        patientRepository.findById(patientId)
-                .orElseThrow(() -> new NotFoundException("Patient not found with id: " + patientId));
-
-        List<AppointmentDto> upcomingAppointments = appoinmentRepository
-                .findByDateTimeAfterAndPatient_Id(tomorrow,patientId);
-
-        return new ArrayList<>(upcomingAppointments);
+    public List<AppointmentDto> getUpcomingAppointmentsForTomorrow(LocalDateTime tomorrow, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<AppointmentDto> appointmentDtoPage = appoinmentRepository
+                .findByDateTimeAfter(tomorrow, pageable);
+        return appointmentDtoPage.getContent();
     }
 
     @Transactional
@@ -98,4 +95,10 @@ public class AppointmentService {
         }
         appoinmentRepository.deleteById(idToDelete);
     }
+
+    public Page<AppointmentDto> findAllAppointments(Pageable pageable){
+        Page<Appointment> appointments = appoinmentRepository.findAll(pageable);
+        return appointments.map(appointmentMapper::toDto);
+    }
+
 }

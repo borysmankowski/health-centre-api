@@ -31,4 +31,7 @@ public class Doctor {
 
     @OneToMany
     private Set<Patient> patients;
+
+    @Version
+    private long version;
 }

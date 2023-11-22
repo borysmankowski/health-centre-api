@@ -4,6 +4,8 @@ import com.example.healthcentreapi.appointment.model.Appointment;
 import com.example.healthcentreapi.appointment.model.AppointmentDto;
 import com.example.healthcentreapi.doctor.model.Doctor;
 import jakarta.persistence.LockModeType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 
@@ -16,5 +18,8 @@ public interface AppoinmentRepository extends JpaRepository<Appointment,Long> {
 
     @Lock(LockModeType.OPTIMISTIC)
     List<AppointmentDto> findByDateTimeAfterAndPatient_Id(LocalDateTime dateTime, Long patient_id);
+
+    Page<AppointmentDto> findByDateTimeAfter(LocalDateTime dateTime, Pageable pageable);
+
 
 }

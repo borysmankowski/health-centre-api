@@ -36,27 +36,20 @@ public class EmailSchedule {
         int page = 0;
         int pageSize = 1000;
 
-        Page<PatientDto> patientDtoPage;
+        List<AppointmentDto> upcomingAppointments;
 
         do {
-            Pageable pageable = PageRequest.of(page, pageSize);
-            patientDtoPage = patientService.findAllPatients(pageable);
+            upcomingAppointments = appointmentService.getUpcomingAppointmentsForTomorrow(tomorrow, page, pageSize);
 
-            for (PatientDto patientDto : patientDtoPage.getContent()) {
-                List<AppointmentDto> upcomingAppointments = appointmentService
-                        .getUpcomingAppointmentsForPatient(patientDto.getId(), tomorrow);
-
-                for (AppointmentDto appointment : upcomingAppointments) {
-                    if (isAppointmentTomorrow(appointment, tomorrow)) {
-                        emailService.sendAppointmentReminderEmail(patientDto, upcomingAppointments);
-                        break;
-                    }
-                }
+            for (AppointmentDto appointment : upcomingAppointments) {
+                PatientDto patientDto = patientService.getPatientById(appointment.getPatientId());
+                emailService.sendAppointmentReminderEmail(patientDto, upcomingAppointments);
             }
 
             page++;
-        } while (patientDtoPage.hasNext());
+        } while (!upcomingAppointments.isEmpty());
     }
+
 
     private boolean isAppointmentTomorrow(AppointmentDto appointment, LocalDateTime tomorrow) {
         LocalDateTime appointmentDateTime = appointment.getDateTime();

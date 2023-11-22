@@ -34,6 +34,6 @@ public class Patient {
     @ManyToOne
     private Doctor doctor;
 
-    @Enumerated(EnumType.STRING)
-    private Speciality speciality;
+    @Version
+    private long version;
 }
