@@ -22,8 +22,4 @@ public class CreatePatientCommand {
     @NotBlank(message = "Email cannot be blank")
     private String email;
 
-    @Positive
-    private long doctorId;
-
-    private Speciality speciality;
 }
