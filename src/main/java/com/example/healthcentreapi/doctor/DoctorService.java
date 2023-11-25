@@ -16,11 +16,7 @@ public class DoctorService {
     private final DoctorMapper doctorMapper;
 
     public DoctorDto saveDoctor(CreateDoctorCommand createDoctorCommand) {
-
         Doctor doctor = doctorMapper.fromDto(createDoctorCommand);
-
-        doctorRepository.save(doctor);
-
-        return doctorMapper.toDto(doctor);
+        return doctorMapper.toDto(doctorRepository.save(doctor));
     }
 }

@@ -9,7 +9,6 @@ import lombok.Data;
 
 import java.util.Set;
 
-@Builder
 @Data
 public class CreateDoctorCommand {
 
